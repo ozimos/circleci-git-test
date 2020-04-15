@@ -1,7 +1,5 @@
 version: 2.1
-orbs:
-    git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
-  
+
 executors:
     base:
         docker:
@@ -11,7 +9,7 @@ jobs:
     build:
         executor: base
         steps:
-        - git-shallow-clone/checkout
+        - checkout
         - run:
             name: Test git in bash script
             command: chmod +x .circleci/circle_test.sh && .circleci/circle_test.sh
