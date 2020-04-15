@@ -18,10 +18,10 @@ jobs:
             environment:
                 PACKAGE_PATH: "./packages"       
             command: |
-                echo -e $(git rev-list -1 develop..$CIRCLE_SHA1 -- ${PACKAGE_PATH#./} | cat)
-                echo -e $(git rev-list -1 develop..$CIRCLE_SHA1 | cat)
-                echo -e $(git rev-list develop..$CIRCLE_SHA1 | cat)
-                git rev-list --count develop..$CIRCLE_SHA1
+                echo -e $(git rev-list -1 $CIRCLE_SHA1 ^develop -- ${PACKAGE_PATH#./} | cat)
+                echo -e $(git rev-list -1 $CIRCLE_SHA1 ^develop | cat)
+                echo -e $(git rev-list $CIRCLE_SHA1 ^develop | cat)
+                git rev-list --count $CIRCLE_SHA1 ^develop
                 git rev-list --count HEAD
 
 workflows:
