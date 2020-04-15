@@ -1,0 +1,21 @@
+version: 2.1
+
+executors:
+    base:
+        docker:
+            - image: cimg/base:2020.01
+
+jobs:
+    build:
+        executor: base
+        steps:
+        - checkout
+        - run:
+            name: Trigger workflows
+            command: chmod +x .circleci/circle_test.sh && .circleci/circle_test.sh
+
+workflows:
+    version: 2
+    ci:
+        jobs:
+        - build
