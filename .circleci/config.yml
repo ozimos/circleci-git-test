@@ -11,8 +11,17 @@ jobs:
         steps:
         - checkout
         - run:
-            name: Trigger workflows
+            name: Test git in bash script
             command: chmod +x .circleci/circle_test.sh && .circleci/circle_test.sh
+        - run:
+            name: Test git in circleci command
+            environment:
+                PACKAGE_PATH: "./packages"       
+            command: |
+                git rev-list -1 develop..$CIRCLE_SHA1 -- ${PACKAGE_PATH#./}
+                git rev-list -1 develop..$CIRCLE_SHA1
+                git rev-list develop..$CIRCLE_SHA1
+                git rev-list --count develop..$CIRCLE_SHA1
 
 workflows:
     version: 2
