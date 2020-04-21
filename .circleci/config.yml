@@ -1,7 +1,8 @@
 version: 2.1
+
 orbs:
     git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
-  
+
 executors:
     base:
         docker:
@@ -20,10 +21,17 @@ jobs:
             environment:
                 PACKAGE_PATH: "./packages"       
             command: |
-                echo -e $(git rev-list -1 develop..$CIRCLE_SHA1 -- ${PACKAGE_PATH#./} | cat)
-                echo -e $(git rev-list -1 develop..$CIRCLE_SHA1 | cat)
-                echo -e $(git rev-list develop..$CIRCLE_SHA1 | cat)
-                git rev-list --count develop..$CIRCLE_SHA1
+                DEVELOP_SHA1=$(git rev-parse origin/develop)
+                echo -e " DEVELOP_SHA1 $DEVELOP_SHA1"
+                echo -e "latest commit in package path since develop"
+                git rev-list -1 $DEVELOP_SHA1..$CIRCLE_SHA1 -- ${PACKAGE_PATH#./}
+                echo -e "latest commit since develop"
+                git rev-list -1 $DEVELOP_SHA1..$CIRCLE_SHA1
+                echo -e "all commits since develop"
+                git rev-list $DEVELOP_SHA1..$CIRCLE_SHA1
+                echo -e "count all commits since develop"
+                git rev-list --count $DEVELOP_SHA1..$CIRCLE_SHA1
+                echo -e "count all commits"
                 git rev-list --count HEAD
 
 workflows:
