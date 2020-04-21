@@ -19,11 +19,16 @@ jobs:
                 PACKAGE_PATH: "./packages"       
             command: |
                 DEVELOP_SHA1=$(git rev-parse origin/develop)
-                echo -e $DEVELOP_SHA1
-                git rev-list -1 $DEVELOP_SHA1...$CIRCLE_SHA1 -- ${PACKAGE_PATH#./}
-                git rev-list -1 $DEVELOP_SHA1...$CIRCLE_SHA1
-                git rev-list $DEVELOP_SHA1...$CIRCLE_SHA1
-                git rev-list --count $DEVELOP_SHA1...$CIRCLE_SHA1
+                echo -e " DEVELOP_SHA1 $DEVELOP_SHA1"
+                echo -e "latest commit in package path since develop"
+                git rev-list -1 $DEVELOP_SHA1..$CIRCLE_SHA1 -- ${PACKAGE_PATH#./}
+                echo -e "latest commit since develop"
+                git rev-list -1 $DEVELOP_SHA1..$CIRCLE_SHA1
+                echo -e "all commits since develop"
+                git rev-list $DEVELOP_SHA1..$CIRCLE_SHA1
+                echo -e "count all commits since develop"
+                git rev-list --count $DEVELOP_SHA1..$CIRCLE_SHA1
+                echo -e "count all commits"
                 git rev-list --count HEAD
 
 workflows:
